@@ -1,0 +1,937 @@
+{
+  "meta": {
+    "source_file_url": "file:///mnt/data/Telelife Guide_Example (1) 1.docx",
+    "title": "Telelife Guide - first 20 pages",
+    "description": "Full branching JSON for first 20 pages. Simple numeric IDs (Q1, Q2...).",
+    "notes": "Agent should call get_question(questionId) to fetch nodes. Each node contains type/next/meta."
+  },
+
+  "Q1": {
+    "text": "First Name",
+    "type": "text",
+    "meta": {"section":"personal","subsection":"name"},
+    "next": "Q2"
+  },
+  "Q2": {
+    "text": "Middle Name",
+    "type": "text",
+    "meta": {"section":"personal","subsection":"name"},
+    "next": "Q3"
+  },
+  "Q3": {
+    "text": "Last Name",
+    "type": "text",
+    "meta": {"section":"personal","subsection":"name"},
+    "next": "Q4"
+  },
+  "Q4": {
+    "text": "Sex",
+    "type": "choice",
+    "choices": ["Male","Female","Other"],
+    "meta":{"section":"personal"},
+    "next": "Q5"
+  },
+  "Q5": {
+    "text": "Date of Birth (mm/dd/yyyy)",
+    "type": "date",
+    "meta":{"section":"personal"},
+    "next": "Q6"
+  },
+  "Q6": {
+    "text": "SSN",
+    "type": "text",
+    "meta":{"section":"personal"},
+    "next": "Q7"
+  },
+  "Q7": {
+    "text": "Place of Birth",
+    "type": "text",
+    "meta":{"section":"personal"},
+    "next": "Q8"
+  },
+  "Q8": {
+    "text": "Height (inches or cm)",
+    "type": "text",
+    "meta":{"section":"personal","unit":"text"},
+    "next": "Q9"
+  },
+  "Q9": {
+    "text": "Weight (lbs or kg)",
+    "type": "text",
+    "meta":{"section":"personal"},
+    "next": "Q10"
+  },
+  "Q10": {
+    "text": "Marital Status",
+    "type": "choice",
+    "choices":["Single","Married","Divorced","Widowed","Separated","Other"],
+    "meta":{"section":"personal"},
+    "next": "Q11"
+  },
+  "Q11": {
+    "text": "Net Worth (ask only if $1,000,000+ applied or age 60+)",
+    "type": "text",
+    "meta":{"section":"personal","conditional":"ask-if-applicable"},
+    "next": "Q12"
+  },
+  "Q12": {
+    "text": "Driver's License # / State",
+    "type": "text",
+    "meta":{"section":"personal"},
+    "next": "Q13"
+  },
+  "Q13": {
+    "text": "Home Phone",
+    "type": "text",
+    "meta":{"section":"personal","format":"phone"},
+    "next": "Q14"
+  },
+  "Q14": {
+    "text": "Work Phone",
+    "type": "text",
+    "meta":{"section":"personal","format":"phone"},
+    "next": "Q15"
+  },
+  "Q15": {
+    "text": "Cell Phone",
+    "type": "text",
+    "meta":{"section":"personal","format":"phone"},
+    "next": "Q16"
+  },
+  "Q16": {
+    "text": "Residential Address (street, city, state, zip)",
+    "type": "text",
+    "meta":{"section":"personal","subsection":"address"},
+    "next": "Q17"
+  },
+  "Q17": {
+    "text": "Mailing Address (if different)",
+    "type": "text",
+    "meta":{"section":"personal","subsection":"address"},
+    "next": "Q18"
+  },
+  "Q18": {
+    "text": "Email Address",
+    "type": "text",
+    "meta":{"section":"personal","format":"email"},
+    "next": "Q19"
+  },
+
+  "Q19": {
+    "text": "Employment - Title",
+    "type": "text",
+    "meta":{"section":"employment"},
+    "next": "Q20"
+  },
+  "Q20": {
+    "text": "Employment - Duties",
+    "type": "text",
+    "meta":{"section":"employment"},
+    "next": "Q21"
+  },
+  "Q21": {
+    "text": "Employment - Years of Service",
+    "type": "number",
+    "meta":{"section":"employment"},
+    "next": "Q22"
+  },
+  "Q22": {
+    "text": "Employment - Salary",
+    "type": "text",
+    "meta":{"section":"employment","format":"currency"},
+    "next": "Q23"
+  },
+  "Q23": {
+    "text": "Employer Name",
+    "type": "text",
+    "meta":{"section":"employment"},
+    "next": "Q24"
+  },
+  "Q24": {
+    "text": "Employer Address",
+    "type": "text",
+    "meta":{"section":"employment","subsection":"address"},
+    "next": "Q25"
+  },
+
+  "Q25": {
+    "text": "Other Insurance - Policy # / Policy Type (first if multiple)",
+    "type": "text",
+    "meta":{"section":"insurance"},
+    "next": "Q26"
+  },
+  "Q26": {
+    "text": "Insurance - Company (first)",
+    "type": "text",
+    "meta":{"section":"insurance"},
+    "next": "Q27"
+  },
+  "Q27": {
+    "text": "Insurance - Amount",
+    "type": "text",
+    "meta":{"section":"insurance"},
+    "next": "Q28"
+  },
+  "Q28": {
+    "text": "Is this replacing an existing policy? (Yes/No)",
+    "type": "yesno",
+    "meta":{"section":"insurance"},
+    "next": {"Yes":"Q28a","No":"Q29"}
+  },
+  "Q28a": {
+    "text": "If yes, provide details of replaced policy (policy #, company, reason)",
+    "type": "text",
+    "meta":{"section":"insurance","parent":"Q28"},
+    "next": "Q29"
+  },
+  "Q29": {
+    "text": "Insurance - Personal or Business?",
+    "type": "choice",
+    "choices":["Personal","Business"],
+    "meta":{"section":"insurance"},
+    "next": "Q30"
+  },
+  "Q30": {
+    "text": "Insurance - Year Issued",
+    "type": "text",
+    "meta":{"section":"insurance"},
+    "next": "Q31"
+  },
+  "Q31": {
+    "text": "Insurance - In-force or Pending?",
+    "type": "choice",
+    "choices":["In-force","Pending"],
+    "meta":{"section":"insurance"},
+    "next": "Q32"
+  },
+
+  "Q32": {
+    "text": "Primary Beneficiary - Name",
+    "type": "text",
+    "meta":{"section":"beneficiary"},
+    "next": "Q33"
+  },
+  "Q33": {
+    "text": "Primary Beneficiary - Relationship",
+    "type": "text",
+    "meta":{"section":"beneficiary"},
+    "next": "Q34"
+  },
+  "Q34": {
+    "text": "Primary Beneficiary - Percentage",
+    "type": "number",
+    "meta":{"section":"beneficiary"},
+    "next": "Q35"
+  },
+  "Q35": {
+    "text": "Contingent Beneficiary - Name",
+    "type": "text",
+    "meta":{"section":"beneficiary"},
+    "next": "Q36"
+  },
+  "Q36": {
+    "text": "Contingent Beneficiary - Relationship",
+    "type": "text",
+    "meta":{"section":"beneficiary"},
+    "next": "Q37"
+  },
+  "Q37": {
+    "text": "Contingent Beneficiary - Percentage",
+    "type": "number",
+    "meta":{"section":"beneficiary"},
+    "next": "Q38"
+  },
+
+  "Q38": {
+    "text": "PLICO SUPP OLI - For any policy to be issued will any portion of initial or future premiums be borrowed, loaned or financed? (Yes/No)",
+    "type": "yesno",
+    "meta":{"section":"risk","note":"premium financing = stop if Yes"},
+    "next": {"Yes":"Q38_stop","No":"Q39"}
+  },
+  "Q38_stop": {
+    "text": "If Yes: Stop TeleInterview. Agent must submit a traditional paper application to the Home Office. (SYSTEM STOP)",
+    "type": "action",
+    "meta":{"section":"risk"},
+    "next": "END"
+  },
+  "Q39": {
+    "text": "Is there any intention any party other than Owner(s) will obtain any right, title or interest in any policy as a result of this application? (Yes/No)",
+    "type": "yesno",
+    "meta":{"section":"risk"},
+    "next": {"Yes":"Q39a","No":"Q40"}
+  },
+  "Q39a": {
+    "text": "If Yes: please describe the party and the nature of interest",
+    "type": "text",
+    "meta":{"section":"risk"},
+    "next": "Q40"
+  },
+  "Q40": {
+    "text": "Is a trust to be an Owner of any policy issued as a result of this application? (Yes/No)",
+    "type": "yesno",
+    "meta":{"section":"risk"},
+    "next": {"Yes":"Q40a","No":"Q41"}
+  },
+  "Q40a": {
+    "text": "If Yes: provide trust name, trustee and trustee contact info",
+    "type": "text",
+    "meta":{"section":"risk"},
+    "next": "Q41"
+  },
+  "Q41": {
+    "text": "Have you ever had, been told you had, or been treated for: AIDS (Acquired Immune Deficiency Syndrome)? (Yes/No)",
+    "type": "yesno",
+    "meta":{"section":"risk","sensitive":true},
+    "next": {"Yes":"Q41_stop","No":"Q42"}
+  },
+  "Q41_stop": {
+    "text": "If Yes: Must discontinue the application process. (SYSTEM STOP)",
+    "type": "action",
+    "meta":{"section":"risk"},
+    "next": "END"
+  },
+
+  "Q42": {
+    "text": "Drug Use - Have you ever used amphetamines, marijuana, cocaine, hallucinogens, heroin or other drugs except as prescribed by a physician? (Yes/No)",
+    "type": "yesno",
+    "meta":{"section":"drug_use"},
+    "next": {"Yes":"Q43","No":"Q55"}
+  },
+  "Q43": {
+    "text": "Have you used any mind or mood altering drugs in the last 10 years? (Yes/No)",
+    "type": "yesno",
+    "meta":{"section":"drug_use","parent":"Q42"},
+    "next": {"Yes":"Q44","No":"Q45"}
+  },
+  "Q44": {
+    "text": "Do you presently use mind or mood altering drugs? (Yes/No)",
+    "type": "yesno",
+    "meta":{"section":"drug_use"},
+    "next": {"Yes":"Q46","No":"Q50"}
+  },
+
+  "Q45": {
+    "text": "If no usage in last 10 years: When did you last use any drug? (date or year)",
+    "type": "text",
+    "meta":{"section":"drug_use"},
+    "next": "Q50"
+  },
+
+  "Q46": {
+    "text": "What is the name or type of drug(s) you currently use?",
+    "type": "text",
+    "meta":{"section":"drug_use"},
+    "next": "Q47"
+  },
+  "Q47": {
+    "text": "What type of drugs have you used? (Marijuana / Other - specify)",
+    "type": "choice",
+    "choices":["Marijuana","Other"],
+    "meta":{"section":"drug_use"},
+    "next": {"Marijuana":"Q48_marijuana","Other":"Q48_other"}
+  },
+  "Q48_marijuana": {
+    "text": "If Marijuana: How often do you use this drug? (text)",
+    "type": "text",
+    "meta":{"section":"drug_use"},
+    "next": "Q49"
+  },
+  "Q48_other": {
+    "text": "If Other: specify drug type and year last used",
+    "type": "text",
+    "meta":{"section":"drug_use"},
+    "next": "Q49"
+  },
+  "Q49": {
+    "text": "How much of the drug is being used? (amount/frequency)",
+    "type": "text",
+    "meta":{"section":"drug_use"},
+    "next": "Q50"
+  },
+  "Q50": {
+    "text": "What year did you last use marijuana? (if applicable)",
+    "type": "text",
+    "meta":{"section":"drug_use"},
+    "next": "Q51"
+  },
+  "Q51": {
+    "text": "Did you ever use substantially more than you use currently? (Yes/No)",
+    "type": "yesno",
+    "meta":{"section":"drug_use"},
+    "next": {"Yes":"Q52","No":"Q55"}
+  },
+  "Q52": {
+    "text": "If Yes: When did you use the drug(s) more than currently? (From date - To date)",
+    "type": "text",
+    "meta":{"section":"drug_use"},
+    "next": "Q53"
+  },
+  "Q53": {
+    "text": "What was the name or type of drug(s) used previously?",
+    "type": "text",
+    "meta":{"section":"drug_use"},
+    "next": "Q54"
+  },
+  "Q54": {
+    "text": "How often did you use this drug (previous use)?",
+    "type": "text",
+    "meta":{"section":"drug_use"},
+    "next": "Q55"
+  },
+
+  "Q55": {
+    "text": "Urinary/Reproductive - Have you ever had, been told you had, or been treated for: Sugar, protein or blood in urine; venereal disease, stone or other disorder of kidney, bladder, prostate, reproductive organs or breasts (not including cancer)? (Yes/No)",
+    "type": "yesno",
+    "meta":{"section":"urinary_reproductive"},
+    "next": {"Yes":"Q56","No":"Q80"}
+  },
+
+  "Q56": {
+    "text": "Which of the following have you had, been treated for, or been diagnosed with? (Kidney Disorder / Kidney Stones / Bladder/Prostate/Reproductive/ Breasts / Sugar/Protein/Blood in Urine / Venereal Disease / Other)",
+    "type": "multi",
+    "choices":["Kidney Disorder","Kidney Stones","Bladder/Prostate/Reproductive Organs or Breasts","Sugar/Protein/Blood in Urine","Venereal Disease","Other"],
+    "meta":{"section":"urinary_reproductive"},
+    "next": {
+      "Kidney Disorder":"Q57_kidney_disorder",
+      "Kidney Stones":"Q57_kidney_stones",
+      "Bladder/Prostate/Reproductive Organs or Breasts":"Q57_bladder_prostate",
+      "Sugar/Protein/Blood in Urine":"Q57_sugar_protein",
+      "Venereal Disease":"Q57_venereal",
+      "Other":"Q57_other"
+    }
+  },
+
+  "Q57_kidney_disorder": {
+    "text": "Kidney Disorder - What was the specific condition?",
+    "type":"text",
+    "meta":{"section":"urinary_reproductive"},
+    "next":"Q58_kidney_disorder_when"
+  },
+  "Q58_kidney_disorder_when": {
+    "text":"When did the condition first occur?",
+    "type":"date",
+    "meta":{"section":"urinary_reproductive"},
+    "next":"Q59_kidney_disorder_diagnosis"
+  },
+  "Q59_kidney_disorder_diagnosis": {
+    "text":"How was it diagnosed?",
+    "type":"text",
+    "meta":{"section":"urinary_reproductive"},
+    "next":"Q60_kidney_tests"
+  },
+  "Q60_kidney_tests": {
+    "text":"Were any special tests performed? (For example: biopsy) (Yes/No)",
+    "type":"yesno",
+    "meta":{"section":"urinary_reproductive"},
+    "next":{"Yes":"Q61_kidney_tests_type","No":"Q62_kidney_results"}
+  },
+  "Q61_kidney_tests_type": {
+    "text":"If Yes: What types of tests were performed?",
+    "type":"text",
+    "meta":{"section":"urinary_reproductive"},
+    "next":"Q62_kidney_results"
+  },
+  "Q62_kidney_results": {
+    "text":"What were the results? (Was it benign?)",
+    "type":"text",
+    "meta":{"section":"urinary_reproductive"},
+    "next":"Q63_kidney_treatment"
+  },
+  "Q63_kidney_treatment": {
+    "text":"Did you receive any treatment, hospitalization or medication? (Yes/No)",
+    "type":"yesno",
+    "meta":{"section":"urinary_reproductive"},
+    "next":{"Yes":"Q64_kidney_treatment_details","No":"Q66_kidney_physician"}
+  },
+  "Q64_kidney_treatment_details": {
+    "text":"If Yes: Which treatment/hospitalization/medication? provide details",
+    "type":"text",
+    "meta":{"section":"urinary_reproductive"},
+    "next":"Q65_kidney_treatment_date"
+  },
+  "Q65_kidney_treatment_date": {
+    "text":"Date of treatment / hospitalization?",
+    "type":"date",
+    "meta":{"section":"urinary_reproductive"},
+    "next":"Q66_kidney_physician"
+  },
+  "Q66_kidney_physician": {
+    "text":"Is/was this treated by your personal physician? (Yes/No)",
+    "type":"yesno",
+    "meta":{"section":"urinary_reproductive"},
+    "next":{"Yes":"Q67_kidney_doctor_info","No":"Q67_kidney_doctor_info"}
+  },
+  "Q67_kidney_doctor_info": {
+    "text":"Doctor name / address / phone that has records for this condition",
+    "type":"text",
+    "meta":{"section":"urinary_reproductive"},
+    "next":"Q68_kidney_followup"
+  },
+  "Q68_kidney_followup": {
+    "text":"When was your last follow-up for this condition and what were the results?",
+    "type":"text",
+    "meta":{"section":"urinary_reproductive"},
+    "next":"Q69_kidney_recurrence"
+  },
+  "Q69_kidney_recurrence": {
+    "text":"Has there been any recurrence or current treatment? (Yes/No)",
+    "type":"yesno",
+    "meta":{"section":"urinary_reproductive"},
+    "next":{"Yes":"Q69a_kidney_recurrence_details","No":"Q70"}
+  },
+  "Q69a_kidney_recurrence_details": {
+    "text":"If Yes: Provide details of recurrence/current treatment",
+    "type":"text",
+    "meta":{"section":"urinary_reproductive"},
+    "next":"Q70"
+  },
+
+  "Q70": {
+    "text":"Digestive/Liver - Have you had Hepatitis or Gallbladder, IBS, Ulcer, Diverticulitis, Chronic Diarrhea, Appendicitis or Pancreatitis, Jaundice or other? (Yes/No)",
+    "type":"yesno",
+    "meta":{"section":"digestive"},
+    "next":{"Yes":"Q71_digestive_list","No":"Q90"}
+  },
+
+  "Q71_digestive_list": {
+    "text":"Which of the following? (Hepatitis / Gall Bladder / IBS / Ulcer / Diverticulitis / Chronic Diarrhea / Appendicitis / Pancreatitis / Jaundice / Other)",
+    "type":"multi",
+    "choices":["Hepatitis","Gall Bladder","Irritable Bowel Syndrome","Ulcer","Diverticulitis","Chronic Diarrhea","Appendicitis","Pancreatitis","Jaundice","Other"],
+    "meta":{"section":"digestive"},
+    "next":{
+      "Hepatitis":"Q72_hepatitis_type",
+      "Gall Bladder":"Q80_gallbladder",
+      "Irritable Bowel Syndrome":"Q80_otherdigestive",
+      "Ulcer":"Q80_otherdigestive",
+      "Diverticulitis":"Q80_otherdigestive",
+      "Chronic Diarrhea":"Q80_otherdigestive",
+      "Appendicitis":"Q80_appendicitis",
+      "Pancreatitis":"Q80_otherdigestive",
+      "Jaundice":"Q80_otherdigestive",
+      "Other":"Q80_otherdigestive"
+    }
+  },
+  "Q72_hepatitis_type": {
+    "text":"What type of Hepatitis were you diagnosed with?",
+    "type":"text",
+    "meta":{"section":"digestive"},
+    "next":"Q73_hepatitis_diagnosis_date"
+  },
+  "Q73_hepatitis_diagnosis_date": {
+    "text":"When were you diagnosed as having Hepatitis?",
+    "type":"date",
+    "meta":{"section":"digestive"},
+    "next":"Q74_hepatitis_treatment"
+  },
+  "Q74_hepatitis_treatment": {
+    "text":"Have you been given treatment for this condition? (Yes/No)",
+    "type":"yesno",
+    "meta":{"section":"digestive"},
+    "next":{"Yes":"Q75_hepatitis_treatment_type","No":"Q76_hepatitis_currentstatus"}
+  },
+  "Q75_hepatitis_treatment_type": {
+    "text":"If Yes: What type of treatment were you given?",
+    "type":"text",
+    "meta":{"section":"digestive"},
+    "next":"Q76_hepatitis_currentstatus"
+  },
+  "Q76_hepatitis_currentstatus": {
+    "text":"When did you last receive treatment? (date)",
+    "type":"date",
+    "meta":{"section":"digestive"},
+    "next":"Q77_hepatitis_currently_treated"
+  },
+  "Q77_hepatitis_currently_treated": {
+    "text":"Are you currently being treated? (Yes/No)",
+    "type":"yesno",
+    "meta":{"section":"digestive"},
+    "next":{"Yes":"Q78_hepatitis_treatment_details","No":"Q79_hepatitis_physician"}
+  },
+  "Q78_hepatitis_treatment_details": {
+    "text":"If Yes: How are you being treated? (text)",
+    "type":"text",
+    "meta":{"section":"digestive"},
+    "next":"Q79_hepatitis_physician"
+  },
+  "Q79_hepatitis_physician": {
+    "text":"Name/address/phone of doctor or medical facility that has records for this condition",
+    "type":"text",
+    "meta":{"section":"digestive"},
+    "next":"Q80"
+  },
+
+  "Q80": {
+    "text":"Gall Bladder / Appendicitis / Other digestive - ask specific follow-ups (diagnosis, surgery, dates, recovered) - (Yes/No follow-ups included)",
+    "type":"branch",
+    "meta":{"section":"digestive"},
+    "next":"Q90"
+  },
+
+  "Q90": {
+    "text":"Respiratory - Have you ever had, been told you had, or been treated for respiratory conditions? (Yes/No)",
+    "type":"yesno",
+    "meta":{"section":"respiratory"},
+    "next":{"Yes":"Q91_respiratory_list","No":"Q110"}
+  },
+
+  "Q91_respiratory_list": {
+    "text":"Which respiratory condition? (Asthma / COPD / Sleep Apnea / Tuberculosis / Other)",
+    "type":"multi",
+    "choices":["Asthma","COPD","Sleep Apnea","Tuberculosis","Other"],
+    "meta":{"section":"respiratory"},
+    "next":{
+      "Asthma":"Q92_asthma_details",
+      "COPD":"Q92_copd_details",
+      "Sleep Apnea":"Q100_sleep_apnea_start",
+      "Tuberculosis":"Q105_tuberculosis_start",
+      "Other":"Q92_other_respiratory"
+    }
+  },
+  "Q92_asthma_details": {
+    "text":"What is the specific medical condition (asthma details)?",
+    "type":"text",
+    "meta":{"section":"respiratory"},
+    "next":"Q93_asthma_treatment"
+  },
+  "Q93_asthma_treatment": {
+    "text":"Did you receive medication or treatment? (Yes/No)",
+    "type":"yesno",
+    "meta":{"section":"respiratory"},
+    "next":{"Yes":"Q94_asthma_med_details","No":"Q96_asthma_physician"}
+  },
+  "Q94_asthma_med_details": {
+    "text":"If Yes: name of medication or type of treatment",
+    "type":"text",
+    "meta":{"section":"respiratory"},
+    "next":"Q95_asthma_start_date"
+  },
+  "Q95_asthma_start_date": {
+    "text":"When did you start on this medication or treatment?",
+    "type":"date",
+    "meta":{"section":"respiratory"},
+    "next":"Q96_asthma_physician"
+  },
+  "Q96_asthma_physician": {
+    "text":"Name, address and phone number of the doctor or medical facility that has records for this condition",
+    "type":"text",
+    "meta":{"section":"respiratory"},
+    "next":"Q97_asthma_last_followup"
+  },
+  "Q97_asthma_last_followup": {
+    "text":"When was your last follow-up for this condition and what were the results?",
+    "type":"text",
+    "meta":{"section":"respiratory"},
+    "next":"Q98_asthma_recurrence"
+  },
+  "Q98_asthma_recurrence": {
+    "text":"Has there been a recurrence or are you currently being treated? (Yes/No)",
+    "type":"yesno",
+    "meta":{"section":"respiratory"},
+    "next":{"Yes":"Q98a_asthma_recurrence_details","No":"Q99_end_respiratory"}
+  },
+  "Q98a_asthma_recurrence_details": {
+    "text":"If Yes: Provide details of recurrence",
+    "type":"text",
+    "meta":{"section":"respiratory"},
+    "next":"Q99_end_respiratory"
+  },
+  "Q99_end_respiratory": {
+    "text":"Respiratory section complete. Move to next section.",
+    "type":"action",
+    "meta":{"section":"respiratory"},
+    "next":"Q100"
+  },
+
+  "Q100_sleep_apnea_start": {
+    "text":"Sleep Apnea - Was a sleep study performed? (Yes/No)",
+    "type":"yesno",
+    "meta":{"section":"respiratory","subsection":"sleep_apnea"},
+    "next":{"Yes":"Q101_sleep_study_date","No":"Q102_sleep_no_study"}
+  },
+  "Q101_sleep_study_date": {
+    "text":"If Yes: When did you have the sleep study? (date)",
+    "type":"date",
+    "meta":{"section":"respiratory","subsection":"sleep_apnea"},
+    "next":"Q103_sleep_results"
+  },
+  "Q102_sleep_no_study": {
+    "text":"If No: Was a CPAP or BiPAP prescribed? (Yes/No)",
+    "type":"yesno",
+    "meta":{"section":"respiratory","subsection":"sleep_apnea"},
+    "next":{"Yes":"Q104_cpap_usage","No":"Q103_sleep_results"}
+  },
+  "Q103_sleep_results": {
+    "text":"What were the results of the sleep study?",
+    "type":"text",
+    "meta":{"section":"respiratory","subsection":"sleep_apnea"},
+    "next":"Q104_cpap_usage"
+  },
+  "Q104_cpap_usage": {
+    "text":"Was a CPAP or BiPAP machine prescribed? (Yes/No)",
+    "type":"yesno",
+    "meta":{"section":"respiratory","subsection":"sleep_apnea"},
+    "next":{"Yes":"Q104a_still_using_machine","No":"Q105_sleep_surgery"}
+  },
+  "Q104a_still_using_machine": {
+    "text":"If Yes: Are you still using the machine on a regular basis? (Yes/No)",
+    "type":"yesno",
+    "meta":{"section":"respiratory","subsection":"sleep_apnea"},
+    "next":{"Yes":"Q105_sleep_surgery","No":"Q105_sleep_surgery"}
+  },
+  "Q105_sleep_surgery": {
+    "text":"Was surgery performed for sleep apnea? (Yes/No)",
+    "type":"yesno",
+    "meta":{"section":"respiratory","subsection":"sleep_apnea"},
+    "next":{"Yes":"Q105a_sleep_surgery_date","No":"Q106_sleep_followup"}
+  },
+  "Q105a_sleep_surgery_date": {
+    "text":"If Yes: When was the surgery performed? (date)",
+    "type":"date",
+    "meta":{"section":"respiratory","subsection":"sleep_apnea"},
+    "next":"Q106_sleep_followup"
+  },
+  "Q106_sleep_followup": {
+    "text":"Was a sleep study done after your treatment? (Yes/No)",
+    "type":"yesno",
+    "meta":{"section":"respiratory","subsection":"sleep_apnea"},
+    "next":{"Yes":"Q107_post_treatment_study_results","No":"Q108_sleep_symptoms"}
+  },
+  "Q107_post_treatment_study_results": {
+    "text":"If Yes: What were the results of the sleep study after treatment?",
+    "type":"text",
+    "meta":{"section":"respiratory","subsection":"sleep_apnea"},
+    "next":"Q108_sleep_symptoms"
+  },
+  "Q108_sleep_symptoms": {
+    "text":"Do you have any ongoing symptoms? (Yes/No)",
+    "type":"yesno",
+    "meta":{"section":"respiratory","subsection":"sleep_apnea"},
+    "next":{"Yes":"Q109_sleep_symptoms_details","No":"Q110"}
+  },
+  "Q109_sleep_symptoms_details": {
+    "text":"If Yes: Please provide details of ongoing symptoms",
+    "type":"text",
+    "meta":{"section":"respiratory","subsection":"sleep_apnea"},
+    "next":"Q110"
+  },
+
+  "Q110": {
+    "text":"Mental / Nervous - Have you ever had convulsions, seizures, epilepsy, paralysis, mental or nervous disorder, anxiety or depression? (Yes/No)",
+    "type":"yesno",
+    "meta":{"section":"mental_nervous"},
+    "next":{"Yes":"Q111_mental_list","No":"Q140"}
+  },
+
+  "Q111_mental_list": {
+    "text":"Which of the following? (Seizures / Mental or Nervous Condition / Any other including Paralysis)",
+    "type":"multi",
+    "choices":["Seizures, Convulsions or Epilepsy","Mental or Nervous Condition (Anxiety or Depression)","Any other including Paralysis"],
+    "meta":{"section":"mental_nervous"},
+    "next":{
+      "Seizures, Convulsions or Epilepsy":"Q112_seizures_details",
+      "Mental or Nervous Condition (Anxiety or Depression)":"Q120_mental_details",
+      "Any other including Paralysis":"Q130_other_nervous"
+    }
+  },
+
+  "Q112_seizures_details": {
+    "text":"Seizures/Convulsions/Epilepsy - What is the specific medical condition?",
+    "type":"text",
+    "meta":{"section":"mental_nervous"},
+    "next":"Q113_seizures_current_treatment"
+  },
+  "Q113_seizures_current_treatment": {
+    "text":"Are you currently being treated for this condition? (Yes/No)",
+    "type":"yesno",
+    "meta":{"section":"mental_nervous"},
+    "next":{"Yes":"Q114_seizures_treatment_type","No":"Q116_seizures_history"}
+  },
+  "Q114_seizures_treatment_type": {
+    "text":"If Yes: What is the current type of treatment? (Medication / Other)",
+    "type":"choice",
+    "choices":["Medication","Other"],
+    "meta":{"section":"mental_nervous"},
+    "next":{"Medication":"Q115_seizures_med_name","Other":"Q115_seizures_other_details"}
+  },
+  "Q115_seizures_med_name": {
+    "text":"If Medication: What is the name of the medication?",
+    "type":"text",
+    "meta":{"section":"mental_nervous"},
+    "next":"Q116_seizures_history"
+  },
+  "Q115_seizures_other_details": {
+    "text":"If Other: Please provide details regarding the management or treatment",
+    "type":"text",
+    "meta":{"section":"mental_nervous"},
+    "next":"Q116_seizures_history"
+  },
+  "Q116_seizures_history": {
+    "text":"Have you ever received treatment or surgery for this condition? (Yes/No)",
+    "type":"yesno",
+    "meta":{"section":"mental_nervous"},
+    "next":{"Yes":"Q117_seizures_treatment_history","No":"Q118_seizures_last_episode"}
+  },
+  "Q117_seizures_treatment_history": {
+    "text":"If Yes: Provide treatment history details",
+    "type":"text",
+    "meta":{"section":"mental_nervous"},
+    "next":"Q118_seizures_last_episode"
+  },
+  "Q118_seizures_last_episode": {
+    "text":"When was your last episode? Provide date.",
+    "type":"date",
+    "meta":{"section":"mental_nervous"},
+    "next":"Q119_seizures_physician"
+  },
+  "Q119_seizures_physician": {
+    "text":"Provide name/address/phone of physician or medical facility that has records",
+    "type":"text",
+    "meta":{"section":"mental_nervous"},
+    "next":"Q120_mental_details"
+  },
+
+  "Q120_mental_details": {
+    "text":"Mental/Nervous - describe the diagnosis or condition (Anxiety/Depression) and when first occurred",
+    "type":"text",
+    "meta":{"section":"mental_nervous"},
+    "next":"Q121_mental_treatment"
+  },
+  "Q121_mental_treatment": {
+    "text":"Did you receive medication or treatment? (Yes/No)",
+    "type":"yesno",
+    "meta":{"section":"mental_nervous"},
+    "next":{"Yes":"Q122_mental_treatment_details","No":"Q123_mental_physician"}
+  },
+  "Q122_mental_treatment_details": {
+    "text":"If Yes: Provide medication/treatment details",
+    "type":"text",
+    "meta":{"section":"mental_nervous"},
+    "next":"Q123_mental_physician"
+  },
+  "Q123_mental_physician": {
+    "text":"Name/address/phone of doctor or facility with records",
+    "type":"text",
+    "meta":{"section":"mental_nervous"},
+    "next":"Q124_mental_followup"
+  },
+  "Q124_mental_followup": {
+    "text":"When was your last follow-up for this condition and what were the results?",
+    "type":"text",
+    "meta":{"section":"mental_nervous"},
+    "next":"Q125_mental_recurring"
+  },
+  "Q125_mental_recurring": {
+    "text":"Has there been any residual or lasting effect? (Yes/No)",
+    "type":"yesno",
+    "meta":{"section":"mental_nervous"},
+    "next":{"Yes":"Q125a_mental_residual_details","No":"Q126_general_health"}
+  },
+  "Q125a_mental_residual_details": {
+    "text":"If Yes: Please provide details of residual effects",
+    "type":"text",
+    "meta":{"section":"mental_nervous"},
+    "next":"Q126_general_health"
+  },
+
+  "Q126_general_health": {
+    "text":"General Health - other than previously stated, have you within the past 5 years had a checkup, consultation, illness, injury or surgery? (Yes/No)",
+    "type":"yesno",
+    "meta":{"section":"general_health"},
+    "next":{"Yes":"Q127_general_reason","No":"Q140"}
+  },
+  "Q127_general_reason": {
+    "text":"If Yes: For what reason did you consult a doctor? (Checkup/OB-GYN/Pregnancy/Cold/Backache/Other - describe)",
+    "type":"choice",
+    "choices":["Checkup/Consultation/Physical","OB/GYN","Pregnancy","Cold/Flu/Sinus/Strep","Backache/Muscle/Fracture","Cuts/Skin/Allergies","Other"],
+    "meta":{"section":"general_health"},
+    "next":"Q128_general_visit_date"
+  },
+  "Q128_general_visit_date": {
+    "text":"What was the date of the visit? (date or select Less than 1 year/Over 1 year)",
+    "type":"text",
+    "meta":{"section":"general_health"},
+    "next":"Q129_general_results"
+  },
+  "Q129_general_results": {
+    "text":"What were the results of the visit?",
+    "type":"text",
+    "meta":{"section":"general_health"},
+    "next":"Q130_general_physician"
+  },
+  "Q130_general_physician": {
+    "text":"Was this visit with your personal physician? (Yes/No)",
+    "type":"yesno",
+    "meta":{"section":"general_health"},
+    "next":{"Yes":"Q131_general_physician_info","No":"Q131_general_physician_info"}
+  },
+  "Q131_general_physician_info": {
+    "text":"Provide name/address/phone of doctor consulted",
+    "type":"text",
+    "meta":{"section":"general_health"},
+    "next":"Q132_obgyn_section"
+  },
+
+  "Q132_obgyn_section": {
+    "text":"OB/GYN - What was the date of OB/GYN check-up? (if applicable)",
+    "type":"date",
+    "meta":{"section":"obgyn","conditional":"ask-if-female"},
+    "next":"Q133_obgyn_results"
+  },
+  "Q133_obgyn_results": {
+    "text":"What were the results of the OB/GYN check-up?",
+    "type":"text",
+    "meta":{"section":"obgyn"},
+    "next":"Q134_blood_children_section"
+  },
+
+  "Q134_blood_children_section": {
+    "text":"Children - Blood: Have any of the children been treated or diagnosed with diabetes, recurrent infections, enlarged lymph glands, anemia, or other blood disorders? (Yes/No)",
+    "type":"yesno",
+    "meta":{"section":"children_health","subsection":"blood"},
+    "next":{"Yes":"Q135_children_blood_details","No":"Q136_children_bonejoint"}
+  },
+  "Q135_children_blood_details": {
+    "text":"If Yes: Child's name, specific diagnosis, date of diagnosis, physician/hospital, date of last visit",
+    "type":"text",
+    "meta":{"section":"children_health","subsection":"blood"},
+    "next":"Q136_children_bonejoint"
+  },
+
+  "Q136_children_bonejoint": {
+    "text":"Children - Bone/Joint: Have any of the children been treated or diagnosed with arthritis, disorders of muscles, skin or bones? (Yes/No)",
+    "type":"yesno",
+    "meta":{"section":"children_health","subsection":"bone_joint"},
+    "next":{"Yes":"Q137_children_bone_details","No":"Q138_children_meds"}
+  },
+  "Q137_children_bone_details": {
+    "text":"If Yes: Child's name, diagnosis, medication prescribed, date of diagnosis, attending physician/hospital, date of last visit",
+    "type":"text",
+    "meta":{"section":"children_health","subsection":"bone_joint"},
+    "next":"Q138_children_meds"
+  },
+  "Q138_children_meds": {
+    "text":"Children - Meds: Have any of the children ever been on or advised to be on any medication or prescribed diet? (Yes/No)",
+    "type":"yesno",
+    "meta":{"section":"children_health","subsection":"meds"},
+    "next":{"Yes":"Q139_children_meds_details","No":"Q140"}
+  },
+  "Q139_children_meds_details": {
+    "text":"If Yes: Child's name, diagnosis, medication/diet, date of diagnosis, attending physician/hospital, date of last visit",
+    "type":"text",
+    "meta":{"section":"children_health","subsection":"meds"},
+    "next":"Q140"
+  },
+
+  "Q140": {
+    "text":"End of first 20-page questionnaire section summary: proceed to confirm or save answers. (END/PROCEED)",
+    "type":"action",
+    "meta":{"section":"end_first20"},
+    "next":"END"
+  },
+
+  "END": {
+    "text":"END OF FLOW (first 20 pages).",
+    "type":"end",
+    "meta":{}
+  }
+}

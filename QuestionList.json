@@ -1,0 +1,76 @@
+{
+  "meta": {
+    "source_file_url": "file:///mnt/data/Telelife Guide_Example (1) 1.docx",
+    "title": "Telelife Guide - first 20 pages",
+    "description": "Full branching JSON for first 20 pages. Simple numeric IDs (Q1, Q2...).",
+    "notes": "Agent should call get_question(questionId) to fetch nodes. Each node contains type/next/meta."
+  },
+
+  "Q1": {
+    "text": "First Name",
+    "type": "text",
+    "meta": {"section":"personal","subsection":"name"},
+    "next": "Q2"
+  },
+  "Q2": {
+    "text": "Middle Name",
+    "type": "text",
+    "meta": {"section":"personal","subsection":"name"},
+    "next": "Q3"
+  },
+  "Q3": {
+    "text": "Last Name",
+    "type": "text",
+    "meta": {"section":"personal","subsection":"name"},
+    "next": "Q4"
+  },
+  "Q4": {
+    "text": "Sex",
+    "type": "choice",
+    "choices": ["Male","Female","Other"],
+    "meta":{"section":"personal"},
+    "next": "Q5"
+  },
+  "Q5": {
+    "text": "Date of Birth (mm/dd/yyyy)",
+    "type": "date",
+    "meta":{"section":"personal"},
+    "next": "Q6"
+  },
+  "Q6": {
+    "text": "SSN",
+    "type": "text",
+    "meta":{"section":"personal"},
+    "next": "Q7"
+  },
+  "Q7": {
+    "text": "Place of Birth",
+    "type": "text",
+    "meta":{"section":"personal"},
+    "next": "Q8"
+  },
+  "Q8": {
+    "text": "Height (inches or cm)",
+    "type": "text",
+    "meta":{"section":"personal","unit":"text"},
+    "next": "Q9"
+  },
+  "Q9": {
+    "text": "Weight (lbs or kg)",
+    "type": "text",
+    "meta":{"section":"personal"},
+    "next": "Q10"
+  },
+  "Q10": {
+    "text": "Marital Status",
+    "type": "choice",
+    "choices":["Single","Married","Divorced","Widowed","Separated","Other"],
+    "meta":{"section":"personal"},
+    "next": "END"
+  },
+  "END": {
+    "text":"END OF FLOW (first 20 pages).",
+    "type":"end",
+    "meta":{}
+  }
+}
