@@ -271,6 +271,7 @@ class ACSMediaHandler:
                         self._response_in_progress = False
                         response = event.get("response", {})
                         logger.info("Response Done: Id=%s", response.get("id"))
+                        logger.info(response)
                         if response.get("status_details"):
                             logger.info(
                                 "Status Details: %s",
@@ -278,7 +279,7 @@ class ACSMediaHandler:
                             )
                         # Notify client that response is complete (for voice status)
                         await self.send_message(
-                            json.dumps({"Kind": "ResponseDone"})
+                            json.dumps({"Kind": "ResponseDone","Text":  response.get("id")})
                         )
 
                     case "response.audio_transcript.delta":
