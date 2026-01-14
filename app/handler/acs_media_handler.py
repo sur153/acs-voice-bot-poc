@@ -277,11 +277,7 @@ class ACSMediaHandler:
                                 "Status Details: %s",
                                 json.dumps(response["status_details"], indent=2),
                             )
-                        # Notify client that response is complete (for voice status)
-                        await self.send_message(
-                            json.dumps({"Kind": "ResponseDone","Text":  response.get("id")})
-                        )
-
+                        
                     case "response.audio_transcript.delta":
                         delta_text = event.get("delta", "")
                         if delta_text:
