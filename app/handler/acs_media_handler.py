@@ -26,6 +26,7 @@ def session_config():
     return {
         "type": "session.update",
         "session": {
+            "modalities": ["text", "audio"],
             "turn_detection": {
                 "type": "azure_semantic_vad",
                 "threshold": 0.5,           # Was 0.3 - higher to avoid false triggers on short words
