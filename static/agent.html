@@ -1,0 +1,1092 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Agent Dashboard — Protective Life</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Albert+Sans:wght@400;500;600;700&family=Open+Sans:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      /* Protective Life Brand Colors */
+      --brand-purple: #4c12a1;
+      --brand-purple-light: #7d55c7;
+      --brand-purple-dark: #3a0d7a;
+      --brand-teal: #15909c;
+      --brand-teal-light: #89c6cc;
+
+      /* Backgrounds */
+      --bg-white: #ffffff;
+      --bg-light: #f7f7f7;
+      --bg-sidebar: #4c12a1;
+      --bg-sidebar-dark: #3a0d7a;
+      --bg-sidebar-hover: rgba(255,255,255,0.1);
+      --bg-sidebar-active: rgba(255,255,255,0.15);
+
+      /* Borders */
+      --border-light: #d2d2d2;
+      --border-medium: #c6c6c6;
+      --border-sidebar: rgba(255,255,255,0.2);
+
+      /* Text */
+      --text-dark: #000000;
+      --text-primary: #333333;
+      --text-secondary: #747474;
+      --text-muted: #878787;
+      --text-white: #ffffff;
+      --text-sidebar: #ffffff;
+      --text-sidebar-muted: rgba(255,255,255,0.7);
+
+      /* Status Colors */
+      --status-pending: #d97706;
+      --status-pending-bg: #fef3c7;
+      --status-active: #0369a1;
+      --status-active-bg: #e0f2fe;
+      --status-complete: #15803d;
+      --status-complete-bg: #dcfce7;
+      --status-failed: #da291c;
+      --status-failed-bg: #fee2e2;
+
+      /* Shadows */
+      --shadow-sm: 0 1px 3px rgba(0,0,0,0.08);
+      --shadow-md: 0 4px 12px rgba(0,0,0,0.1);
+      --shadow-lg: 0 8px 30px rgba(0,0,0,0.12);
+
+      /* Radius */
+      --radius-sm: 4px;
+      --radius-md: 8px;
+      --radius-lg: 12px;
+
+      /* Transitions */
+      --transition: 180ms ease;
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    html, body {
+      height: 100%;
+    }
+
+    body {
+      font-family: 'Open Sans', Helvetica, Arial, sans-serif;
+      background: var(--bg-light);
+      color: var(--text-primary);
+      line-height: 1.5;
+      font-size: 15px;
+      overflow: hidden;
+      -webkit-font-smoothing: antialiased;
+    }
+
+    .dashboard {
+      display: grid;
+      grid-template-columns: 380px 1fr;
+      height: 100vh;
+    }
+
+    /* ═══════════════════════════════════════════
+       SIDEBAR - Protective Purple
+    ═══════════════════════════════════════════ */
+    .sidebar {
+      background: linear-gradient(180deg, var(--brand-purple) 0%, var(--brand-purple-dark) 100%);
+      display: flex;
+      flex-direction: column;
+      overflow: hidden;
+    }
+
+    .sidebar-header {
+      padding: 28px 24px 24px;
+      border-bottom: 1px solid var(--border-sidebar);
+    }
+
+    .brand {
+      display: flex;
+      align-items: center;
+      gap: 14px;
+      margin-bottom: 4px;
+    }
+
+    .brand-mark {
+      width: 40px;
+      height: 40px;
+      background: var(--text-white);
+      border-radius: var(--radius-md);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: var(--brand-purple);
+    }
+
+    .brand-mark svg {
+      width: 22px;
+      height: 22px;
+    }
+
+    .brand h1 {
+      font-family: 'Albert Sans', 'Open Sans', Helvetica, sans-serif;
+      font-size: 20px;
+      font-weight: 700;
+      color: var(--text-white);
+      letter-spacing: -0.01em;
+    }
+
+    .sidebar-header p {
+      font-size: 13px;
+      color: var(--text-sidebar-muted);
+      margin-left: 54px;
+    }
+
+    .sidebar-toolbar {
+      padding: 14px 20px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      border-bottom: 1px solid var(--border-sidebar);
+      background: rgba(0,0,0,0.1);
+    }
+
+    .queue-status {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .status-indicator {
+      width: 8px;
+      height: 8px;
+      background: var(--brand-teal-light);
+      border-radius: 50%;
+      animation: pulse 2.5s ease-in-out infinite;
+    }
+
+    @keyframes pulse {
+      0%, 100% { opacity: 1; }
+      50% { opacity: 0.5; }
+    }
+
+    .queue-status span {
+      font-size: 13px;
+      color: var(--text-sidebar-muted);
+    }
+
+    .queue-status strong {
+      color: var(--text-white);
+      font-weight: 600;
+    }
+
+    .refresh-btn {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      padding: 8px 14px;
+      font-size: 13px;
+      font-weight: 600;
+      font-family: inherit;
+      color: var(--text-white);
+      background: rgba(255,255,255,0.15);
+      border: none;
+      border-radius: var(--radius-sm);
+      cursor: pointer;
+      transition: var(--transition);
+    }
+
+    .refresh-btn:hover {
+      background: rgba(255,255,255,0.25);
+    }
+
+    .refresh-btn:focus {
+      outline: 2px solid var(--text-white);
+      outline-offset: 2px;
+    }
+
+    .refresh-btn svg {
+      width: 14px;
+      height: 14px;
+    }
+
+    /* Transfer List */
+    .transfer-list {
+      flex: 1;
+      overflow-y: auto;
+      padding: 16px;
+    }
+
+    .transfer-list::-webkit-scrollbar {
+      width: 6px;
+    }
+
+    .transfer-list::-webkit-scrollbar-track {
+      background: transparent;
+    }
+
+    .transfer-list::-webkit-scrollbar-thumb {
+      background: rgba(255,255,255,0.2);
+      border-radius: 3px;
+    }
+
+    .transfer-card {
+      background: rgba(255,255,255,0.1);
+      border: 1px solid transparent;
+      border-radius: var(--radius-md);
+      padding: 18px;
+      margin-bottom: 10px;
+      cursor: pointer;
+      transition: var(--transition);
+    }
+
+    .transfer-card:hover {
+      background: rgba(255,255,255,0.15);
+      border-color: rgba(255,255,255,0.1);
+    }
+
+    .transfer-card.selected {
+      background: var(--text-white);
+      border-color: var(--text-white);
+    }
+
+    .transfer-card.selected h3,
+    .transfer-card.selected .caller-id,
+    .transfer-card.selected .reason,
+    .transfer-card.selected .timestamp,
+    .transfer-card.selected .msg-count {
+      color: var(--text-primary) !important;
+    }
+
+    .transfer-card.selected .caller-id svg {
+      color: var(--brand-purple) !important;
+    }
+
+    .transfer-card.selected .transfer-card-footer {
+      border-color: var(--border-light);
+    }
+
+    .transfer-card-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-start;
+      margin-bottom: 12px;
+    }
+
+    .transfer-card h3 {
+      font-family: 'IBM Plex Mono', monospace;
+      font-size: 12px;
+      font-weight: 500;
+      color: var(--text-sidebar-muted);
+      letter-spacing: 0.02em;
+      margin-bottom: 4px;
+    }
+
+    .transfer-card .caller-id {
+      font-size: 15px;
+      font-weight: 600;
+      color: var(--text-white);
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .transfer-card .caller-id svg {
+      width: 14px;
+      height: 14px;
+      color: var(--brand-teal-light);
+    }
+
+    .status-tag {
+      padding: 4px 10px;
+      border-radius: var(--radius-sm);
+      font-size: 11px;
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: 0.04em;
+    }
+
+    .status-pending {
+      background: var(--status-pending-bg);
+      color: var(--status-pending);
+    }
+
+    .status-in_progress {
+      background: var(--status-active-bg);
+      color: var(--status-active);
+    }
+
+    .status-completed {
+      background: var(--status-complete-bg);
+      color: var(--status-complete);
+    }
+
+    .status-failed {
+      background: var(--status-failed-bg);
+      color: var(--status-failed);
+    }
+
+    .transfer-card-body {
+      margin-bottom: 14px;
+    }
+
+    .transfer-card-body p {
+      font-size: 13px;
+      color: var(--text-sidebar-muted);
+      line-height: 1.45;
+    }
+
+    .transfer-card-body .reason {
+      display: -webkit-box;
+      -webkit-line-clamp: 2;
+      -webkit-box-orient: vertical;
+      overflow: hidden;
+    }
+
+    .transfer-card-body .timestamp {
+      margin-top: 8px;
+      font-size: 12px;
+      color: rgba(255,255,255,0.5);
+      display: flex;
+      align-items: center;
+      gap: 5px;
+    }
+
+    .transfer-card-body .timestamp svg {
+      width: 12px;
+      height: 12px;
+    }
+
+    .transfer-card-footer {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding-top: 14px;
+      border-top: 1px solid var(--border-sidebar);
+    }
+
+    .msg-count {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      font-size: 12px;
+      color: rgba(255,255,255,0.5);
+    }
+
+    .msg-count svg {
+      width: 14px;
+      height: 14px;
+    }
+
+    .complete-btn {
+      padding: 7px 14px;
+      font-size: 12px;
+      font-weight: 600;
+      font-family: inherit;
+      color: var(--text-white);
+      background: var(--brand-teal);
+      border: none;
+      border-radius: var(--radius-sm);
+      cursor: pointer;
+      transition: var(--transition);
+    }
+
+    .complete-btn:hover {
+      background: var(--brand-teal-light);
+      color: var(--text-dark);
+    }
+
+    .complete-btn:focus {
+      outline: 2px solid var(--text-white);
+      outline-offset: 2px;
+    }
+
+    .sidebar-footer {
+      padding: 14px 20px;
+      border-top: 1px solid var(--border-sidebar);
+      font-family: 'IBM Plex Mono', monospace;
+      font-size: 11px;
+      color: rgba(255,255,255,0.4);
+      text-align: center;
+      background: rgba(0,0,0,0.1);
+    }
+
+    /* ═══════════════════════════════════════════
+       MAIN CONTENT
+    ═══════════════════════════════════════════ */
+    .main-content {
+      background: var(--bg-light);
+      display: flex;
+      flex-direction: column;
+      overflow: hidden;
+      height: 100vh;
+    }
+
+    .content-placeholder {
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      color: var(--text-muted);
+      gap: 16px;
+      padding: 40px;
+    }
+
+    .placeholder-icon {
+      width: 72px;
+      height: 72px;
+      background: var(--bg-white);
+      border: 1px solid var(--border-light);
+      border-radius: var(--radius-lg);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      box-shadow: var(--shadow-sm);
+    }
+
+    .placeholder-icon svg {
+      width: 32px;
+      height: 32px;
+      color: var(--brand-purple-light);
+    }
+
+    .content-placeholder p {
+      font-size: 15px;
+      color: var(--text-secondary);
+    }
+
+    /* Content Header - Compact */
+    .content-header {
+      padding: 16px 28px 14px;
+      background: var(--bg-white);
+      border-bottom: 1px solid var(--border-light);
+      flex-shrink: 0;
+    }
+
+    .content-header-top {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 12px;
+    }
+
+    .content-header h2 {
+      font-family: 'Albert Sans', 'Open Sans', Helvetica, sans-serif;
+      font-size: 20px;
+      font-weight: 700;
+      color: var(--text-dark);
+      letter-spacing: -0.02em;
+      margin-bottom: 2px;
+    }
+
+    .content-header .session-id {
+      font-family: 'IBM Plex Mono', monospace;
+      font-size: 11px;
+      color: var(--text-muted);
+    }
+
+    .info-grid {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 10px;
+    }
+
+    .info-item {
+      background: var(--bg-light);
+      border-radius: var(--radius-sm);
+      padding: 10px 12px;
+      border: 1px solid var(--border-light);
+    }
+
+    .info-item label {
+      display: block;
+      font-size: 10px;
+      color: var(--text-muted);
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+      font-weight: 600;
+      margin-bottom: 2px;
+    }
+
+    .info-item p {
+      font-size: 13px;
+      font-weight: 600;
+      color: var(--text-dark);
+    }
+
+    /* Summary Section - Compact */
+    .content-summary {
+      padding: 12px 28px;
+      background: var(--bg-white);
+      border-bottom: 1px solid var(--border-light);
+      flex-shrink: 0;
+    }
+
+    .summary-label {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      margin-bottom: 8px;
+    }
+
+    .summary-label svg {
+      width: 14px;
+      height: 14px;
+      color: var(--brand-purple);
+    }
+
+    .summary-label h3 {
+      font-family: 'Albert Sans', 'Open Sans', Helvetica, sans-serif;
+      font-size: 11px;
+      font-weight: 700;
+      color: var(--text-secondary);
+      text-transform: uppercase;
+      letter-spacing: 0.04em;
+    }
+
+    .summary-content {
+      font-size: 13px;
+      color: var(--text-secondary);
+      line-height: 1.5;
+      white-space: pre-wrap;
+      background: var(--bg-light);
+      padding: 10px 14px;
+      border-radius: var(--radius-sm);
+      border-left: 3px solid var(--brand-purple);
+    }
+
+    /* Messages Section */
+    .content-messages {
+      flex: 1;
+      min-height: 0;
+      overflow-y: auto;
+      padding: 16px 28px;
+      background: var(--bg-light);
+    }
+
+    .content-messages::-webkit-scrollbar {
+      width: 8px;
+    }
+
+    .content-messages::-webkit-scrollbar-track {
+      background: transparent;
+    }
+
+    .content-messages::-webkit-scrollbar-thumb {
+      background: var(--border-medium);
+      border-radius: 4px;
+    }
+
+    .messages-label {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin-bottom: 14px;
+      padding-bottom: 10px;
+      border-bottom: 1px solid var(--border-light);
+    }
+
+    .messages-label h3 {
+      font-family: 'Albert Sans', 'Open Sans', Helvetica, sans-serif;
+      font-size: 11px;
+      font-weight: 700;
+      color: var(--text-secondary);
+      text-transform: uppercase;
+      letter-spacing: 0.04em;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+
+    .messages-label h3 span {
+      font-size: 11px;
+      color: var(--text-muted);
+      font-weight: 400;
+      text-transform: none;
+      letter-spacing: 0;
+    }
+
+    .message {
+      margin-bottom: 14px;
+    }
+
+    .message-wrapper {
+      display: flex;
+      gap: 10px;
+      max-width: 85%;
+    }
+
+    .message.user .message-wrapper {
+      margin-left: auto;
+      flex-direction: row-reverse;
+    }
+
+    .message-avatar {
+      width: 30px;
+      height: 30px;
+      border-radius: var(--radius-sm);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-shrink: 0;
+    }
+
+    .message.user .message-avatar {
+      background: var(--brand-purple);
+      color: var(--text-white);
+    }
+
+    .message.ai .message-avatar {
+      background: var(--bg-white);
+      border: 1px solid var(--border-light);
+      color: var(--brand-purple);
+    }
+
+    .message-avatar svg {
+      width: 16px;
+      height: 16px;
+    }
+
+    .message-bubble {
+      padding: 10px 14px;
+      border-radius: var(--radius-md);
+    }
+
+    .message.user .message-bubble {
+      background: var(--brand-purple);
+      color: var(--text-white);
+      border-bottom-right-radius: var(--radius-sm);
+    }
+
+    .message.ai .message-bubble {
+      background: var(--bg-white);
+      border: 1px solid var(--border-light);
+      color: var(--text-primary);
+      border-bottom-left-radius: var(--radius-sm);
+      box-shadow: var(--shadow-sm);
+    }
+
+    .message-meta {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      margin-bottom: 4px;
+    }
+
+    .message-role {
+      font-size: 11px;
+      font-weight: 600;
+    }
+
+    .message.user .message-role {
+      color: rgba(255,255,255,0.85);
+    }
+
+    .message.ai .message-role {
+      color: var(--brand-purple);
+    }
+
+    .message-time {
+      font-size: 10px;
+      color: var(--text-muted);
+    }
+
+    .message.user .message-time {
+      color: rgba(255,255,255,0.6);
+    }
+
+    .message-text {
+      font-size: 13px;
+      line-height: 1.5;
+    }
+
+    /* Empty & Loading States */
+    .empty-state, .loading-state, .error-state {
+      padding: 48px 24px;
+      text-align: center;
+    }
+
+    .state-icon {
+      width: 56px;
+      height: 56px;
+      margin: 0 auto 16px;
+      background: rgba(255,255,255,0.2);
+      border-radius: var(--radius-lg);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .state-icon svg {
+      width: 24px;
+      height: 24px;
+      color: var(--text-sidebar-muted);
+    }
+
+    .loading-state .state-icon svg {
+      animation: spin 1.2s linear infinite;
+    }
+
+    @keyframes spin {
+      to { transform: rotate(360deg); }
+    }
+
+    .empty-state h4, .loading-state h4 {
+      font-family: 'Albert Sans', 'Open Sans', Helvetica, sans-serif;
+      font-size: 15px;
+      font-weight: 600;
+      color: var(--text-white);
+      margin-bottom: 4px;
+    }
+
+    .empty-state p, .loading-state p {
+      font-size: 13px;
+      color: var(--text-sidebar-muted);
+    }
+
+    .error-state {
+      color: var(--status-failed-bg);
+      font-size: 13px;
+    }
+
+    /* Focus & Accessibility */
+    .transfer-card:focus {
+      outline: 2px solid var(--text-white);
+      outline-offset: 2px;
+    }
+
+    button:focus-visible {
+      outline: 2px solid var(--brand-purple);
+      outline-offset: 2px;
+    }
+
+    /* Responsive */
+    @media (max-width: 1200px) {
+      .info-grid {
+        grid-template-columns: repeat(2, 1fr);
+      }
+    }
+
+    @media (max-width: 900px) {
+      .dashboard {
+        grid-template-columns: 320px 1fr;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="dashboard">
+    <aside class="sidebar" role="complementary" aria-label="Transfer queue">
+      <header class="sidebar-header">
+        <div class="brand">
+          <div class="brand-mark" aria-hidden="true">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/>
+            </svg>
+          </div>
+          <h1>Protective Life</h1>
+        </div>
+        <p>Agent Transfer Dashboard</p>
+      </header>
+
+      <div class="sidebar-toolbar">
+        <div class="queue-status">
+          <div class="status-indicator" aria-hidden="true"></div>
+          <span id="transfer-count">Loading...</span>
+        </div>
+        <button class="refresh-btn" onclick="fetchTransfers()" aria-label="Refresh transfer list">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M21 2v6h-6M3 12a9 9 0 0 1 15-6.7L21 8M3 22v-6h6M21 12a9 9 0 0 1-15 6.7L3 16"/>
+          </svg>
+          Refresh
+        </button>
+      </div>
+
+      <div class="transfer-list" id="transfer-list" role="list" aria-label="Pending transfers">
+        <div class="loading-state">
+          <div class="state-icon">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <path d="M12 2v4M12 18v4M4.93 4.93l2.83 2.83M16.24 16.24l2.83 2.83M2 12h4M18 12h4M4.93 19.07l2.83-2.83M16.24 7.76l2.83-2.83"/>
+            </svg>
+          </div>
+          <h4>Loading transfers</h4>
+          <p>Connecting to server...</p>
+        </div>
+      </div>
+
+      <footer class="sidebar-footer" id="last-refresh">
+        Last sync: --:--:--
+      </footer>
+    </aside>
+
+    <main class="main-content" id="main-content">
+      <div class="content-placeholder">
+        <div class="placeholder-icon" aria-hidden="true">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+            <path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/>
+          </svg>
+        </div>
+        <p>Select a transfer to view the conversation</p>
+      </div>
+    </main>
+  </div>
+
+  <script>
+    let transfers = [];
+    let selectedId = null;
+
+    function formatRelativeTime(isoString) {
+      if (!isoString) return 'Unknown';
+      const date = new Date(isoString);
+      const now = new Date();
+      const diffMs = now - date;
+      const diffMins = Math.floor(diffMs / 60000);
+
+      if (diffMins < 1) return 'Just now';
+      if (diffMins < 60) return `${diffMins}m ago`;
+      const diffHours = Math.floor(diffMins / 60);
+      if (diffHours < 24) return `${diffHours}h ago`;
+      const diffDays = Math.floor(diffHours / 24);
+      return `${diffDays}d ago`;
+    }
+
+    async function fetchTransfers() {
+      try {
+        const response = await fetch('/agent/transfers');
+        const data = await response.json();
+
+        if (data.status === 'success') {
+          transfers = data.transfers || [];
+          renderTransferList();
+        } else {
+          document.getElementById('transfer-list').innerHTML =
+            `<div class="error-state">${data.error || 'Failed to fetch transfers'}</div>`;
+        }
+      } catch (err) {
+        document.getElementById('transfer-list').innerHTML =
+          `<div class="error-state">Connection error: ${err.message}</div>`;
+      }
+
+      document.getElementById('last-refresh').textContent =
+        `Last sync: ${new Date().toLocaleTimeString('en-US', { hour12: false })}`;
+    }
+
+    function renderTransferList() {
+      const container = document.getElementById('transfer-list');
+      const countEl = document.getElementById('transfer-count');
+
+      const pendingCount = transfers.filter(t => t.transfer?.status === 'pending').length;
+      countEl.innerHTML = `<strong>${transfers.length}</strong> transfers · <strong>${pendingCount}</strong> pending`;
+
+      if (transfers.length === 0) {
+        container.innerHTML = `
+          <div class="empty-state">
+            <div class="state-icon">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+                <path d="M22 12h-4l-3 9L9 3l-3 9H2"/>
+              </svg>
+            </div>
+            <h4>Queue is clear</h4>
+            <p>New transfer requests will appear here</p>
+          </div>
+        `;
+        return;
+      }
+
+      container.innerHTML = transfers.map((transfer) => {
+        const meta = transfer.meta || {};
+        const applicant = transfer.applicant || {};
+        const transferData = transfer.transfer || {};
+        const conversation = transfer.conversation || [];
+        const isSelected = transfer.id === selectedId;
+
+        return `
+          <article
+            class="transfer-card ${isSelected ? 'selected' : ''}"
+            onclick="selectTransfer('${transfer.id}')"
+            role="listitem"
+            tabindex="0"
+            aria-selected="${isSelected}"
+            onkeydown="if(event.key==='Enter')selectTransfer('${transfer.id}')"
+          >
+            <div class="transfer-card-header">
+              <div>
+                <h3>${(meta.session_id || 'Unknown').slice(0, 8).toUpperCase()}</h3>
+                <p class="caller-id">
+                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72c.127.96.361 1.903.7 2.81a2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45c.907.339 1.85.573 2.81.7A2 2 0 0 1 22 16.92z"/>
+                  </svg>
+                  ${applicant.phone || 'No phone'}
+                </p>
+              </div>
+              <span class="status-tag status-${transferData.status || 'pending'}">
+                ${(transferData.status || 'pending').replace('_', ' ')}
+              </span>
+            </div>
+            <div class="transfer-card-body">
+              <p class="reason">${transferData.reason || 'Transfer requested'}</p>
+              <p class="timestamp">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                  <circle cx="12" cy="12" r="10"/><path d="M12 6v6l4 2"/>
+                </svg>
+                ${formatRelativeTime(transferData.requested_at)}
+              </p>
+            </div>
+            <div class="transfer-card-footer">
+              <span class="msg-count">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                  <path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/>
+                </svg>
+                ${conversation.length} messages
+              </span>
+              ${(transferData.status === 'pending' || transferData.status === 'in_progress')
+                ? `<button class="complete-btn" onclick="event.stopPropagation(); markHandled('${meta.session_id}')" aria-label="Mark transfer as complete">Complete</button>`
+                : ''}
+            </div>
+          </article>
+        `;
+      }).join('');
+    }
+
+    function selectTransfer(id) {
+      selectedId = id;
+      renderTransferList();
+      renderConversationView();
+    }
+
+    function renderConversationView() {
+      const container = document.getElementById('main-content');
+      const transfer = transfers.find(t => t.id === selectedId);
+
+      if (!transfer) {
+        container.innerHTML = `
+          <div class="content-placeholder">
+            <div class="placeholder-icon" aria-hidden="true">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+                <path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/>
+              </svg>
+            </div>
+            <p>Select a transfer to view the conversation</p>
+          </div>
+        `;
+        return;
+      }
+
+      const meta = transfer.meta || {};
+      const applicant = transfer.applicant || {};
+      const transferData = transfer.transfer || {};
+      const conversation = transfer.conversation || [];
+
+      container.innerHTML = `
+        <header class="content-header">
+          <div class="content-header-top">
+            <div>
+              <h2>Customer Conversation</h2>
+              <span class="session-id">Session ${meta.session_id || 'Unknown'}</span>
+            </div>
+            <span class="status-tag status-${transferData.status || 'pending'}">
+              ${(transferData.status || 'pending').replace('_', ' ')}
+            </span>
+          </div>
+          <div class="info-grid">
+            <div class="info-item">
+              <label>Phone Number</label>
+              <p>${applicant.phone || 'Not provided'}</p>
+            </div>
+            <div class="info-item">
+              <label>Policy Type</label>
+              <p>${applicant.policy_type || 'Life Insurance'}</p>
+            </div>
+            <div class="info-item">
+              <label>Requested</label>
+              <p>${formatRelativeTime(transferData.requested_at)}</p>
+            </div>
+            <div class="info-item">
+              <label>Messages</label>
+              <p>${conversation.length} total</p>
+            </div>
+          </div>
+        </header>
+
+        ${transferData.summary ? `
+          <section class="content-summary">
+            <div class="summary-label">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/>
+                <path d="M14 2v6h6M16 13H8M16 17H8M10 9H8"/>
+              </svg>
+              <h3>AI Summary</h3>
+            </div>
+            <div class="summary-content">${transferData.summary}</div>
+          </section>
+        ` : ''}
+
+        <section class="content-messages" aria-label="Conversation history">
+          <div class="messages-label">
+            <h3>
+              Conversation History
+              <span>(${conversation.length} messages)</span>
+            </h3>
+          </div>
+          ${conversation.length === 0
+            ? '<p style="color: var(--text-muted); text-align: center; padding: 40px;">No messages recorded</p>'
+            : conversation.map((msg) => `
+              <article class="message ${msg.role}" role="article">
+                <div class="message-wrapper">
+                  <div class="message-avatar" aria-hidden="true">
+                    ${msg.role === 'user'
+                      ? '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>'
+                      : '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="3"/><path d="M12 1v2M12 21v2M4.22 4.22l1.42 1.42M18.36 18.36l1.42 1.42M1 12h2M21 12h2M4.22 19.78l1.42-1.42M18.36 5.64l1.42-1.42"/></svg>'
+                    }
+                  </div>
+                  <div class="message-bubble">
+                    <div class="message-meta">
+                      <span class="message-role">${msg.role === 'user' ? 'Customer' : 'AI Assistant'}</span>
+                      <span class="message-time">${formatRelativeTime(msg.timestamp)}</span>
+                    </div>
+                    <div class="message-text">${escapeHtml(msg.content)}</div>
+                  </div>
+                </div>
+              </article>
+            `).join('')
+          }
+        </section>
+      `;
+    }
+
+    function escapeHtml(text) {
+      const div = document.createElement('div');
+      div.textContent = text;
+      return div.innerHTML;
+    }
+
+    async function markHandled(sessionId) {
+      try {
+        const response = await fetch(`/agent/transfers/${sessionId}/status`, {
+          method: 'PUT',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ status: 'completed', notes: 'Handled by agent' })
+        });
+
+        const data = await response.json();
+        if (data.status === 'success') {
+          fetchTransfers();
+          if (selectedId && transfers.find(t => t.id === selectedId)?.meta?.session_id === sessionId) {
+            selectedId = null;
+            renderConversationView();
+          }
+        } else {
+          alert('Failed to update: ' + (data.error || 'Unknown error'));
+        }
+      } catch (err) {
+        alert('Connection error: ' + err.message);
+      }
+    }
+
+    // Initial fetch
+    fetchTransfers();
+
+    // Poll every 10 seconds
+    setInterval(fetchTransfers, 10000);
+  </script>
+</body>
+</html>
